@@ -17,6 +17,8 @@ import com.formacionbdi.springboot.app.item.models.Item;
 import com.formacionbdi.springboot.app.item.models.Producto;
 import com.formacionbdi.springboot.app.item.models.service.ItemService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 public class ItemController {
 
@@ -36,11 +38,16 @@ public class ItemController {
 		return itemService.findAll();
 	}
 	
-	//@HystrixCommand(fallbackMethod = "metodoAlternativo")
 	@GetMapping("/ver/{id}/cantidad/{cantidad}")
 	public Item detalle(@PathVariable Long id, @PathVariable Integer cantidad){
 		return cbFactory.create("items_guillermo")
 				.run(()-> itemService.findById(id, cantidad), e -> metodoAlternativo(id, cantidad, e));
+	}
+	
+	@CircuitBreaker(name = "items_guillermo", fallbackMethod = "metodoAlternativo")
+	@GetMapping("/ver2/{id}/cantidad/{cantidad}")
+	public Item detalle2(@PathVariable Long id, @PathVariable Integer cantidad){
+		return itemService.findById(id, cantidad);
 	}
 	
 	public Item metodoAlternativo(Long id, Integer cantidad, Throwable e){
