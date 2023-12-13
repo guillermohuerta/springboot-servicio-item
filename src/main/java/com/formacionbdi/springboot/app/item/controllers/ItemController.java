@@ -39,7 +39,7 @@ public class ItemController {
 	//@HystrixCommand(fallbackMethod = "metodoAlternativo")
 	@GetMapping("/ver/{id}/cantidad/{cantidad}")
 	public Item detalle(@PathVariable Long id, @PathVariable Integer cantidad){
-		return cbFactory.create("items")
+		return cbFactory.create("items_guillermo")
 				.run(()-> itemService.findById(id, cantidad), e -> metodoAlternativo(id, cantidad, e));
 	}
 	

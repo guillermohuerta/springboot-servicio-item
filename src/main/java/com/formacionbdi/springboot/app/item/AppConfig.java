@@ -32,10 +32,10 @@ public class AppConfig {
     						.waitDurationInOpenState(Duration.ofSeconds(10L))
     						.permittedNumberOfCallsInHalfOpenState(5)
     						.slowCallRateThreshold(50)
-    						.slowCallDurationThreshold(Duration.ofSeconds(2L))//Tiempo maximo que puede durar, si dura esto es una llamada lenta
+    						.slowCallDurationThreshold(Duration.ofSeconds(2L))//Tiempo maximo que puede durar una llamada, si dura mas de 2s significa que es una llamada lenta, no dara timeout pero si hay mas del 50% de llamadas lentas abre circuito
     						.build())
     				.timeLimiterConfig(TimeLimiterConfig.custom()
-    						.timeoutDuration(Duration.ofSeconds(3L))//Controlar el tiempo de espera
+    						.timeoutDuration(Duration.ofSeconds(3L))//Este valor es la duracion maxima para que salte al metodo alternativo y de timeout.
     						.build())
     				.build();
     	}); 
