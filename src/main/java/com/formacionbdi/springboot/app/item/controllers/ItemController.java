@@ -53,7 +53,7 @@ public class ItemController {
 	}
 	
 	@CircuitBreaker(name = "items_guillermo", fallbackMethod = "metodoAlternativo2")
-	@TimeLimiter(name = "items_guillermo", fallbackMethod = "metodoAlternativo2")//Con esta anotacion solo se controla el timeout, no se hace los corto circuitos, ni tiempo de espera
+	@TimeLimiter(name = "items_guillermo")//Con esta anotacion solo se controla el timeout, no se hace los corto circuitos, ni tiempo de espera
 	@GetMapping("/ver3/{id}/cantidad/{cantidad}")
 	public CompletableFuture<Item> detalle3(@PathVariable Long id, @PathVariable Integer cantidad){
 		return CompletableFuture.supplyAsync(() -> itemService.findById(id, cantidad));
